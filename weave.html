@@ -45,21 +45,21 @@ var p = document.getElementById("content");
   function ins_p_block (x,y) {
     console.log(x,y);
     x = ++x, y=++y;
-    x = x + offset[0];
+
     y = y + offset[1];
     var d = document.createElement('span');
-    d.style.left = (40*x) + "px";
+    d.style.left = (40*x) + offset[0] + "px";
     d.style.top  = ( 40*y) + "px";
     p.appendChild(d);
   }
   function ins_p_block_solid (x,y) {
     console.log(x,y);
     x = ++x, y=++y;
-    x = x + offset[0];
+
     y = y + offset[1];
     var d = document.createElement('span');
     d.className = "solid";
-    d.style.left = (40*x) + "px";
+    d.style.left = (40*x) + offset[0] + "px";
     d.style.top  = (40*y) + "px";
     p.appendChild(d);
   }
@@ -115,8 +115,10 @@ while (loop < 20) {
     cnt2++;
 
   }
+  col = 0;
+  cnt2 =0;
   loop++;
-  offset[0] = offset[0] + loop;
+  offset[0] = offset[0] + (loop * (12 * 40));
 
 }
 
