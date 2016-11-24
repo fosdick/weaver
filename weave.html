@@ -1,0 +1,128 @@
+<html>
+<style>
+span {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+}
+body {
+  width: calc(40px*4);
+}
+.solid {
+  background-color: #000;
+}
+</style>
+<body>
+
+  <div id="content"></div>
+
+<script type="text/javascript">
+
+var
+
+// thread = [1,2,3,2,3,4,1,5,6,5,6,4],
+// tread = [1,2,3,2,3,4,1,5,6,5,6,4],
+// tie_up = [[2,4,5],[1,2,3],[2,3,4],[1,3,6],[1,5,6],[4,5,6] ],
+// wrap_colors = [1,1,1,1,1,1,1,1,1,1,1,1],
+// weft_colors = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+
+
+
+thread = [1, 2, 3, 4, 1, 2, 3, 4],
+  tread = [1, 1, 2, 2, 3, 3, 4, 4],
+  //tie_up = [[1, 2], [3, 4], [1, 2], [3, 4]],
+  //tread = [4,3,2,1,4,3,2,1],
+  tie_up = [[1, 2], [2, 3], [3, 4],[1, 4]],
+
+  wrap_colors = [1, 1, 0, 0, 1, 1, 0, 0],
+  weft_colors = [0, 0, 1, 1, 0, 0, 1, 1];
+
+
+var p = document.getElementById("content");
+
+  var col = 0,cnt2 = 0, offset = [0,0];
+  function ins_p_block (x,y) {
+    console.log(x,y);
+    x = ++x, y=++y;
+    x = x + offset[0];
+    y = y + offset[1];
+    var d = document.createElement('span');
+    d.style.left = (40*x) + "px";
+    d.style.top  = ( 40*y) + "px";
+    p.appendChild(d);
+  }
+  function ins_p_block_solid (x,y) {
+    console.log(x,y);
+    x = ++x, y=++y;
+    x = x + offset[0];
+    y = y + offset[1];
+    var d = document.createElement('span');
+    d.className = "solid";
+    d.style.left = (40*x) + "px";
+    d.style.top  = (40*y) + "px";
+    p.appendChild(d);
+  }
+
+  function row_places (tieup, thread_list) {
+  	var cnt = 0,row_list = [];
+
+  	for (x in thread_list) {
+       if (tieup && tieup.indexOf(thread_list[x]) > -1) {
+  				     row_list.push(cnt);
+  			}
+        cnt++;
+      }
+  	return row_list;
+  }
+  function not_row_places (tieup, thread_list) {
+  	var cnt = 0,row_list = [];
+
+  	for (x in thread_list) {
+       if (tieup && tieup.indexOf(thread_list[x]) == -1) {
+  				     row_list.push(cnt);
+  			}
+        cnt++;
+      }
+  	return row_list;
+  }
+
+  var cnt2 = 0,row_scale = 1,col_scale = 1;
+var loop = 0;
+while (loop < 20) {
+  for (var i in tread) {
+    var row = row_places(tie_up[tread[i]], thread);
+
+    for (var j in row) {
+        if (wrap_colors[row[j]] == 0) {
+          ins_p_block(row[j], col);//type 1
+        }
+        if (wrap_colors[row[j]] == 1) {
+          ins_p_block_solid(row[j],col);//type 1
+        }
+    }
+    var nrow = not_row_places(tie_up[tread[i]], thread);
+    for (var j in nrow) {
+        if (weft_colors[cnt2] == 0) {
+          ins_p_block(row[j], col);//type 1
+        }
+        if (weft_colors[cnt2] == 1) {
+          ins_p_block_solid(row[j], col);//type 1
+        }
+    }
+
+    col++;
+    cnt2++;
+
+  }
+  loop++;
+  offset[0] = offset[0] + loop;
+
+}
+
+
+
+
+
+
+</script>

@@ -1,0 +1,54 @@
+<html>
+<style>
+span {
+  float: left;
+  width: 40px;
+  height: 40px;
+}
+body {
+  width: calc(40px*32);
+}
+.solid {
+  background-color: #000;
+}
+</style>
+<body>
+
+  <div id="content"></div>
+
+<script type="text/javascript">
+
+var i = 0;
+var seq = [];
+function red(n) {
+  var b = (n >>> 0).toString(2)
+  var sum = 0;
+  for (var i=0, l=b.length;i<l;i++) {
+    sum += Number(b[i]);
+  }
+  return sum%2;
+}
+while (i < (8*100)) {
+
+  seq.push(red(i));
+  i++;
+
+}
+
+function mkdiv(c) {
+  var d = document.createElement('span');
+  if (c == 0) {
+    d.className = "solid";
+  }
+  return d;
+}
+var p = document.getElementById("content");
+for (var n in seq) {
+  p.appendChild(mkdiv(seq[n]));
+}
+
+
+
+
+
+</script>
