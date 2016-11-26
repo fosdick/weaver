@@ -7,7 +7,7 @@ R = math.sqrt(2)
 #R=math.pi
 S = []
 D = []
-ThueFile = open('sig.txt', "w")
+SigFile = open('sig.txt', "w")
 
 for i in range(1, 20):
     for j in range(1, 20):
@@ -18,7 +18,7 @@ for i in range(1, 20):
 S.sort(key=lambda x: x[1])
 for i in S:
     D.append(i[0])
-    print >> ThueFile, i[0]
+    print >> SigFile, i[0]
 
 
 ThueFile.close()

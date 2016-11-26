@@ -19,30 +19,21 @@ body {
 <script type="text/javascript">
 
 var
-
-// thread = [1,2,3,2,3,4,1,5,6,5,6,4],
-// tread = [1,2,3,2,3,4,1,5,6,5,6,4],
-// tie_up = [[2,4,5],[1,2,3],[2,3,4],[1,3,6],[1,5,6],[4,5,6] ],
-// wrap_colors = [1,1,1,1,1,1,1,1,1,1,1,1],
-// weft_colors = [0,0,0,0,0,0,0,0,0,0,0,0];
-
-
-
-
-thread = [1, 2, 3, 4, 1, 2, 3, 4],
-  //tread = [1, 1, 2, 2, 3, 3, 4, 4],
-  //tie_up = [[1, 2], [3, 4], [1, 2], [3, 4]],
-  tread = [4,3,2,1,4,3,2,1],
-  tie_up = [[1], [1, 3], [4],[2, 4]],
-
-  wrap_colors = [0, 0, 0, 0, 0, 0, 0, 0],
-  weft_colors = [1, 1, 1, 1, 1,1,1,1];
+    thread = [1, 2, 3, 4, 1, 2, 3, 4],
+    tread = [4,3,2,4,4,3,2,4],
+    tie_up = [[1,2], [1, 3], [3,4],[2, 4]],
+    //wrap_colors = [0, 0, 0, 0, 0, 0, 0, 0],
+    //weft_colors = [1, 1, 1, 1, 1,1,1,1]
+;
 
 thread = thread.concat (thread, thread);
 tread = tread.concat (tread, tread);
-wrap_colors = wrap_colors.concat(wrap_colors,wrap_colors);
-weft_colors - weft_colors.concat(weft_colors,weft_colors);
+//wrap_colors = wrap_colors.concat(wrap_colors,wrap_colors);
+//weft_colors - weft_colors.concat(weft_colors,weft_colors);
 
+
+
+//parent html element to attach things to.
 var p = document.getElementById("content");
 
   var col = 0,cnt2 = 0, offset = [0,0];
@@ -68,14 +59,12 @@ var p = document.getElementById("content");
 
   function row_places (tieup, thread_list) {
   	var cnt = 0,row_list = [];
-    console.log(tieup)
   	for (x in thread_list) {
        if (tieup && tieup.indexOf(thread_list[x]) > -1) {
   				     row_list.push(cnt);
   			}
         cnt++;
       }
-      console.log(row_list, 'in list');
   	return row_list;
   }
   function not_row_places (tieup, thread_list) {
@@ -87,7 +76,6 @@ var p = document.getElementById("content");
   			}
         cnt++;
       }
-      console.log(row_list, 'not list');
   	return row_list;
   }
 
