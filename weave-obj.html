@@ -149,9 +149,11 @@ var weavePatterns = function() {
                 tread : [2,1,1,2,1,2,2,1,1,2,2,1,2,1,1,2,1,2,2,1,2,1,1,2,2,1,1,2,1,2,2,1,1,2,2,1,2,1,1,2,2,1,1,2,1,2,2,1,2,1,1,2,1,2,2,1,1,2,2,1,2,1,1,2,1,2,2,1,2,1,1,2,2,1,1,2,1,2,2,1,2,1,1,2,1,2,2,1,1,2,2,1,2,1,1,2,2,1,1,2],
                 tie_up : [[2],[1]]
             };
+            o.thread = o.thread.splice(0,16);
+            o.tread = o.tread.splice(0,48);
             o.attrs = {}
-            o.attrs.weave_width = 10;
-            o.attrs.weave_height = 10;
+            o.attrs.weave_width = 40;
+            o.attrs.weave_height = 40;
             console.log(this.parent);
             return o;
         },
