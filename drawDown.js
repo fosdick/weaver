@@ -8,6 +8,9 @@ var drawDown = (function() {
         weave_height:40,
         fill: "#212121",
         setupSvg : function() {
+            if (this.svg) {
+                this.svg.parentNode.removeChild(this.svg)
+            }
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');
