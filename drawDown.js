@@ -11,8 +11,8 @@ var drawDown = (function() {
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');
-            svg.style.height = "2000px";
-            svg.style.width = "2000px";
+            svg.style.height = (72*11) + "px";
+            svg.style.width = (72*8.5) + "px";
             var params = {
             	'fill' : '#fff'
             	,'stroke' : '#da2424'
@@ -36,6 +36,66 @@ var drawDown = (function() {
         		c.setAttributeNS(null, a,attrs[a]);
         	}
         	return c;
+        },
+        insert_col_num: function(i) {
+        	var c = document.createElementNS(this.xmlns,"circle");
+            this.legend_circ_attrs = {
+                cx : (this.weave_width * i) + this.weave_width + (this.weave_width / 2),
+                cy : this.weave_width / 2,
+                r : this.weave_width * 0.35,
+                fill: 'none',
+                stroke: '#333',
+            }
+            var attrs = this.legend_circ_attrs;
+        	for (var a in attrs) {
+        		c.setAttributeNS(null, a,attrs[a]);
+        	}
+        	this._append(c);
+            var t = document.createElementNS(this.xmlns,"text");
+            var attrs = {
+                x : (this.weave_width * i) + this.weave_width + (this.weave_width / 2),
+                y : this.weave_width / 2,
+                'font-size' : (this.weave_width * .3)+'px',
+                stroke: '#333',
+                'text-anchor': 'middle'
+            }
+        	for (var a in attrs) {
+        		t.setAttributeNS(null, a,attrs[a]);
+        	}
+            i++;
+            var textNode = document.createTextNode(i);
+            t.appendChild(textNode);
+            this._append(t);
+        },
+        insert_row_num: function(i) {
+        	var c = document.createElementNS(this.xmlns,"circle");
+            this.legend_circ_attrs = {
+                cy : (this.weave_height * i) + this.weave_height + (this.weave_height / 2),
+                cx : this.weave_height / 2,
+                r : this.weave_height * 0.35,
+                fill: 'none',
+                stroke: '#333',
+            }
+            var attrs = this.legend_circ_attrs;
+        	for (var a in attrs) {
+        		c.setAttributeNS(null, a,attrs[a]);
+        	}
+        	this._append(c);
+            var t = document.createElementNS(this.xmlns,"text");
+            var attrs = {
+                y : (this.weave_height * i) + this.weave_height + (this.weave_height / 2),
+                x : this.weave_height / 2,
+                'font-size' : (this.weave_height * .3)+'px',
+                stroke: '#333',
+                'text-anchor': 'middle'
+            }
+        	for (var a in attrs) {
+        		t.setAttributeNS(null, a,attrs[a]);
+        	}
+            i++;
+            var textNode = document.createTextNode(i);
+            t.appendChild(textNode);
+            this._append(t);
         },
         ins_p_block: function(x,y) {
             x = ++x, y=++y;
@@ -75,6 +135,16 @@ var drawDown = (function() {
               cnt++;
             }
             return row_list;
+        },
+        legend: function() {
+            for (var i in this.tread) {
+
+                this.insert_col_num(i);
+            }
+            for (var i in this.tread) {
+                //console.log("should see i for rows" , i)
+                this.insert_row_num(i);
+            }
         },
         draw: function() {
             var tread = this.tread
