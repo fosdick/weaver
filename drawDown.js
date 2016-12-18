@@ -18,6 +18,7 @@ var drawDown = (function() {
             svg.style.width = (72*8.5) + "px";
             var params = {
             	'fill' : '#fff'
+                ,'fill-opacity' : 0.5
             	,'stroke' : '#da2424'
             	,'x' : 0
             	,'y' : 0
@@ -104,6 +105,9 @@ var drawDown = (function() {
             x = ++x, y=++y;
             y = y + this.offset[1];
             var params = this.params;
+            params['fill'] = "#333";
+            params['fill-opacity'] = .2;
+            console.log(x,y);
             params.x = (this.weave_width*x) + this.offset[0];
             params.y = (this.weave_height*y);
             params.fill = this.fill;
@@ -158,6 +162,7 @@ var drawDown = (function() {
             for (var i in tread) {
                 var row = this.row_places(tie_up[tread[i]-1], thread);
                 for (var j in row) {
+
                   this.ins_p_block_solid(row[j],col);//type 1
                   // if (wrap_colors[row[j]] == 0) {
                   //   ins_p_block(row[j], col);//type 1
@@ -168,7 +173,13 @@ var drawDown = (function() {
                 }
                 var nrow = this.not_row_places(tie_up[tread[i]-1], thread);
                 for (var j in nrow) {
-                  this.ins_p_block(row[j], col);//type 1
+                    //somethinhg is wrong / off for this function
+                     //this.ins_p_block(nrow[j], col);
+
+
+
+
+
                   // if (weft_colors[cnt2] == 0) {
                   //   ins_p_block(row[j], col);//type 1
                   // }
