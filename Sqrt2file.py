@@ -3,10 +3,10 @@
 ##writes a file with lines of square roots etc.
 ##
 
-Sqrt5File = open('sqrt3File.txt', "w")
+Sqrt5File = open('decimal-strings/sqrt31File.txt', "w")
 from decimal import *
 getcontext().prec = 2500
-line = Decimal(3).sqrt()
+line = Decimal(31).sqrt()
 
 for x in str(line):
 

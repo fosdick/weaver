@@ -14,8 +14,8 @@ var drawDown = (function() {
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');
-            svg.style.height = (72*11) + "px";
-            svg.style.width = (72*8.5) + "px";
+            svg.style.height = 2*(72*11) + "px";
+            svg.style.width = 2*(72*8.5) + "px";
             var params = {
             	'fill' : '#fff'
                 ,'fill-opacity' : 0.5
@@ -56,12 +56,16 @@ var drawDown = (function() {
         	}
         	this._append(c);
             var t = document.createElementNS(this.xmlns,"text");
+
             var attrs = {
                 x : (this.weave_width * i) + this.weave_width + (this.weave_width / 2),
                 y : this.weave_width / 2,
                 'font-size' : (this.weave_width * .3)+'px',
                 stroke: '#333',
                 'text-anchor': 'middle'
+            }
+            if (i%10 == 0) {
+                console.log(i);
             }
         	for (var a in attrs) {
         		t.setAttributeNS(null, a,attrs[a]);

@@ -19,7 +19,7 @@ body {
 #weaveCtrl {
     position: fixed;
     left:800px;
-    top:80px;
+    top:10px;
 }
 #weaveCtrl li:hover {
     cursor: pointer;
@@ -30,6 +30,7 @@ body {
   <div id="content"></div>
 
   <div id="weaveCtrl">
+      <h4 id="currentTitle"></h4>
       <ul>
           <li class="weavePatterns" data-forList="weavePatterns" onclick=ctrl.swapWeavePattern(this)>
               {{@index}}
@@ -86,6 +87,7 @@ var weaveCtrl = function() {
     };
     this.swapWeavePattern = function(el) {
         var name = el.getAttribute('data-at-index');
+        document.querySelector("#currentTitle").innerHTML = name;
         pat.setCurrentPattern(name);
         pat.drawCurrentPattern();
     }
