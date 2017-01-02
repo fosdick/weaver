@@ -7,10 +7,10 @@ R = math.sqrt(2)
 #R=math.pi
 S = []
 D = []
-SigFile = open('sig26.txt', "w")
+SigFile = open('decimal-strings/sig26.txt', "w")
 
-for i in range(1, 26):
-    for j in range(1, 26):
+for i in range(1, 27):
+    for j in range(1, 27):
         S.append((i, i+(j*R)))
 
 
