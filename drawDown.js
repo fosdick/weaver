@@ -14,8 +14,8 @@ var drawDown = (function() {
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');
-            svg.style.height = 2*(72*11) + "px";
-            svg.style.width = 2*(72*8.5) + "px";
+            svg.style.height = (72*11) + "px";
+            svg.style.width = (72*8.5) + "px";
             var params = {
             	'fill' : '#fff'
                 ,'fill-opacity' : 0.5

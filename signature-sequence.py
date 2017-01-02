@@ -7,10 +7,10 @@ R = math.sqrt(2)
 #R=math.pi
 S = []
 D = []
-SigFile = open('sig.txt', "w")
+SigFile = open('sig26.txt', "w")
 
-for i in range(1, 20):
-    for j in range(1, 20):
+for i in range(1, 26):
+    for j in range(1, 26):
         S.append((i, i+(j*R)))
 
 
@@ -21,4 +21,4 @@ for i in S:
     print >> SigFile, i[0]
 
 
-ThueFile.close()
+SigFile.close()

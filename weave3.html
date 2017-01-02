@@ -65,16 +65,16 @@ sqrt29 = [3,8,5,1,6,4,8,0,7,1,3,4,5,0,4,0,3,1,2,5,0,7,1,0,4,9,1,5,4,0,3,2,9,5,5,
 sqrt31 = [5,6,7,7,6,4,3,6,2,8,3,0,0,2,1,9,2,2,1,1,9,4,7,1,2,9,8,9,1,8,5,4,9,5,2,0,4,7,6,3,9,3,3,7,7,5,7,0,4,1,4,3,0,3,9,6,8,4,3,2,5,8,5,6,0,3,5,8,9,8,3,9,2,5,4,2,3,6,2,9,2,9,2,7,2,1,8,3,9,6,1,8,4,9,2,6,6,7,8,4,2,3,2,1,6,5,2,7,3,9,7,9,7,0,2,6,6,2,2,4,6,0,5,9,6,0,5,0,1,3,0,6,4,6,4,6,2,8,2,6,8,1,8,0,8,4,1,9];
 
 
-thread = sqrt13;
-tread = sqrt13;
+thread = sqrt31;
+tread = sqrt31;
 
 
 //modN relates to the tie_up
 function modN(n) {
-    return (n % 4) + 1;
+    return (n % 5) + 1;
 }
 function inVer(n) {
-    return 5 - n;
+    return 6 - n;
 }
 // thread = thread.map(modN).splice(100,200);
 // tread = tread.map(modN).splice(100,200).map(inVer);
@@ -99,14 +99,14 @@ tread = tread.map(modN).map(inVer);
 // var nl = [1,2,3,4]
 
 var pl = [1,3]
-var blank_pl = [2,4]
-var nl = [1,2,3,4]
+var blank_pl = [2,4,5]
+var nl = [1,2,3,4,5]
 
 
 i = 0;
 tie_up = [];
 tie_up.push(_pluck(nl,pl));
-while (i < 7) {
+while (i < 6) {
     nl = _rollf(nl);
     tie_up.push(_pluck(nl,pl));
     i++;
