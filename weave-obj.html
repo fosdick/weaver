@@ -20,7 +20,11 @@ body {
     position: absolute;;
     left:800px;
     top:1px;
-
+}
+ul.col2 {
+    position: absolute;;
+    left:180px;
+    top:1px;
 }
 #weaveCtrl li:hover {
     cursor: pointer;
@@ -37,7 +41,11 @@ body {
               {{@index}}
           </li>
       </ul>
-
+      <ul class="col2">
+           <li class="weavePatterns" data-forList="paperPatterns" onclick=ctrl.swapWeavePattern(this)>
+               {{@index}}
+           </li>
+       </ul>
   </div>
 
 <script type="text/javascript">
@@ -47,7 +55,8 @@ body {
 var dd = new drawDown;
 var pat = new weavePatterns();
 pat.set_dd(dd);
-pat.setCurrentPattern('posseltsFig46');
+//pat.setCurrentPattern('posseltsFig46');
+pat.setCurrentPattern('sqrt13x5r150_300');
 pat.drawCurrentPattern();
 
 var weaveCtrl = function() {
@@ -69,7 +78,6 @@ var weaveCtrl = function() {
 
     }
     this.buildForList = function(el) {
-        window.el = el;
         var m = this.models[el.getAttribute('data-forList')];
         var p = el.parentNode;
         if (m) {
@@ -107,6 +115,14 @@ var weaveCtrl = function() {
 
 }
 var ctrl = new weaveCtrl();
+var paperPatterns = {};
+for (var x in pat.patterns) {
+    if (x.indexOf("pp_") == 0) {
+        paperPatterns[x] = pat.patterns[x];
+    }
+}
+ctrl.models.paperPatterns = paperPatterns;
+
 ctrl.collectActions();
 
 

@@ -7,6 +7,7 @@ var drawDown = (function() {
         weave_width:40,
         weave_height:40,
         fill: "#212121",
+        fillBoth: false,
         setupSvg : function() {
             if (this.svg) {
                 this.svg.parentNode.removeChild(this.svg)
@@ -64,9 +65,7 @@ var drawDown = (function() {
                 stroke: '#333',
                 'text-anchor': 'middle'
             }
-            if (i%10 == 0) {
-                console.log(i);
-            }
+
         	for (var a in attrs) {
         		t.setAttributeNS(null, a,attrs[a]);
         	}
@@ -109,21 +108,19 @@ var drawDown = (function() {
             x = ++x, y=++y;
             y = y + this.offset[1];
             var params = this.params;
-            params['fill'] = "#333";
-            params['fill-opacity'] = .2;
-            console.log(x,y);
+            params['fill'] = "#fff",
             params.x = (this.weave_width*x) + this.offset[0];
             params.y = (this.weave_height*y);
-            params.fill = this.fill;
             this._append(this._rec(params));
         },
         ins_p_block_solid: function(x,y) {
             x = ++x, y=++y;
             y = y + this.offset[1];
             var params = this.params;
+            params.fill = "#333";
+            params['fill-opacity'] = .5;
             params.x = (this.weave_width*x) + this.offset[0];
             params.y = (this.weave_height*y);
-            params.fill = this.fill;
             this._append(this._rec(params));
         },
         row_places : function(tieup, thread_list) {
@@ -137,15 +134,15 @@ var drawDown = (function() {
             return row_list;
         },
         not_row_places: function (tieup, thread_list) {
-            var cnt = 0,row_list = [];
+            var cnt = 0,nrow_list = [];
 
             for (x in thread_list) {
              if (tieup && tieup.indexOf(thread_list[x]) < 0) {
-                             row_list.push(cnt);
+                             nrow_list.push(cnt);
                     }
               cnt++;
             }
-            return row_list;
+            return nrow_list;
         },
         legend: function() {
             for (var i in this.tread) {
@@ -165,32 +162,31 @@ var drawDown = (function() {
 
             for (var i in tread) {
                 var row = this.row_places(tie_up[tread[i]-1], thread);
-                for (var j in row) {
 
-                  this.ins_p_block_solid(row[j],col);//type 1
-                  // if (wrap_colors[row[j]] == 0) {
-                  //   ins_p_block(row[j], col);//type 1
-                  // }
-                  // if (wrap_colors[row[j]] == 1) {
-                  //   ins_p_block_solid(row[j],col);//type 1
-                  // }
-                }
-                var nrow = this.not_row_places(tie_up[tread[i]-1], thread);
-                for (var j in nrow) {
-                    //somethinhg is wrong / off for this function
-                     //this.ins_p_block(nrow[j], col);
+                    for (var j in row) {
 
+                      this.ins_p_block_solid(row[j],col);//type 1
+                      // if (wrap_colors[row[j]] == 0) {
+                      //   ins_p_block(row[j], col);//type 1
+                      // }
+                      // if (wrap_colors[row[j]] == 1) {
+                      //   ins_p_block_solid(row[j],col);//type 1
+                      // }
+                    }
+                if (this.fillBoth) {
+                    var nrow = this.not_row_places(tie_up[tread[i]-1], thread);
+                    for (var j in nrow) {
 
+                        this.ins_p_block(nrow[j], col);
 
-
-
-                  // if (weft_colors[cnt2] == 0) {
-                  //   ins_p_block(row[j], col);//type 1
-                  // }
-                  // if (weft_colors[cnt2] == 1) {
-                  //   ins_p_block_solid(row[j], col);//type 1
-                  // }
-                //get tread #
+                      // if (weft_colors[cnt2] == 0) {
+                      //   ins_p_block(row[j], col);//type 1
+                      // }
+                      // if (weft_colors[cnt2] == 1) {
+                      //   ins_p_block_solid(row[j], col);//type 1
+                      // }
+                    //get tread #
+                    }
                 }
                 col++;
                 cnt2++;
