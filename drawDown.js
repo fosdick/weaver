@@ -8,7 +8,7 @@ var drawDown = (function() {
         weave_width:40,
         weave_height:40,
         fill: "#212121",
-        fillBoth: false,
+        fillBoth: true,
         setupSvg : function() {
             if (this.svg) {
                 this.svg.parentNode.removeChild(this.svg)
@@ -16,12 +16,12 @@ var drawDown = (function() {
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');
-            svg.style.height = (72*11) + "px";
+            svg.style.height = (72*8.5) + "px";
             svg.style.width = (72*8.5) + "px";
             var params = {
             	'fill' : '#fff'
                 ,'fill-opacity' : 0.5
-            	,'stroke' : '#da2424'
+            	,'stroke' : 'none'
             	,'x' : 0
             	,'y' : 0
                 ,'height' : this.weave_width
@@ -200,7 +200,7 @@ var drawDown = (function() {
                     var nrow = this.not_row_places(tie_up[tread[i]-1], thread);
                     for (var j in nrow) {
 
-                        this.ins_p_block(nrow[j], col);
+                        //this.ins_p_block(nrow[j], col);
 
                       // if (weft_colors[cnt2] == 0) {
                       //   ins_p_block(row[j], col);//type 1
