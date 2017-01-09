@@ -4,6 +4,7 @@ var drawDown = (function() {
         col : 0,
         cnt2 : 0,
         p : document.getElementById("content"),
+        coordsReport : document.getElementById("coordsReport"),
         weave_width:40,
         weave_height:40,
         fill: "#212121",
@@ -37,6 +38,13 @@ var drawDown = (function() {
         },
         _rec: function(attrs) {
         	var c = document.createElementNS(this.xmlns,"rect")
+        	for (var a in attrs) {
+        		c.setAttributeNS(null, a,attrs[a]);
+        	}
+        	return c;
+        },
+        _svg_el: function(name, attrs) {
+            var c = document.createElementNS(this.xmlns,name)
         	for (var a in attrs) {
         		c.setAttributeNS(null, a,attrs[a]);
         	}
@@ -104,6 +112,15 @@ var drawDown = (function() {
             t.appendChild(textNode);
             this._append(t);
         },
+        getRectClick: function () {
+            var f = function(evt,p) {
+                var el = evt.target;
+                var bb = el.getBBox();
+                var x = bb.x / p.weave_width, y = bb.y / p.weave_height;
+                p.coordsReport.innerHTML = [x,y].toString();
+            };
+            return f;
+        },
         ins_p_block: function(x,y) {
             x = ++x, y=++y;
             y = y + this.offset[1];
@@ -121,7 +138,13 @@ var drawDown = (function() {
             params['fill-opacity'] = .5;
             params.x = (this.weave_width*x) + this.offset[0];
             params.y = (this.weave_height*y);
-            this._append(this._rec(params));
+            var r = this._rec(params);
+            var f = this.getRectClick();
+            var p = this;
+            r.addEventListener('click', function(e) {
+                f(e,p);
+            }.bind(this));
+            this._append(r);
         },
         row_places : function(tieup, thread_list) {
             var cnt = 0,row_list = [];
