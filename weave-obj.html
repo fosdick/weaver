@@ -26,6 +26,11 @@ ul.col2 {
     left:180px;
     top:1px;
 }
+ul.col3 {
+    position: absolute;;
+    left:320px;
+    top:1px;
+}
 #weaveCtrl li:hover {
     cursor: pointer;
 }
@@ -47,6 +52,12 @@ ul.col2 {
                {{@index}}
            </li>
        </ul>
+
+       <ul class="col3">
+            <li class="weavePatterns" data-forList="largePaperPatterns" onclick=ctrl.swapWeavePattern(this)>
+                {{@index}}
+            </li>
+        </ul>
   </div>
 
 <script type="text/javascript">
@@ -125,12 +136,19 @@ var weaveCtrl = function() {
 }
 var ctrl = new weaveCtrl();
 var paperPatterns = {};
+var largePaperPatterns = {};
 for (var x in pat.patterns) {
     if (x.indexOf("pp_") == 0) {
         paperPatterns[x] = pat.patterns[x];
     }
 }
+for (var x in pat.patterns) {
+    if (x.indexOf("lp_") == 0) {
+        largePaperPatterns[x] = pat.patterns[x];
+    }
+}
 ctrl.models.paperPatterns = paperPatterns;
+ctrl.models.largePaperPatterns = largePaperPatterns;
 
 ctrl.collectActions();
 
