@@ -16,23 +16,13 @@ body {
 .solid {
   background-color: #000;
 }
-#weaveCtrl {
+#largeWeaveCtrl {
     position: absolute;;
-    left:800px;
+    left:1600px;
     top:1px;
     z-index: -1;
 }
-ul.col2 {
-    position: absolute;;
-    left:180px;
-    top:1px;
-}
-ul.col3 {
-    position: absolute;;
-    left:320px;
-    top:1px;
-    width:200px;
-}
+
 #weaveCtrl li:hover {
     cursor: pointer;
 }
@@ -41,7 +31,7 @@ ul.col3 {
 
   <div id="content"></div>
 
-  <div id="weaveCtrl">
+  <div id="largeWeaveCtrl">
       <h4 id="currentTitle"></h4>
       <h4 id="coordsReport"></h4>
       <ul>
@@ -67,18 +57,13 @@ ul.col3 {
 
 
 var dd = new drawDown;
+dd.weave_width = 80;
+dd.weave_height = 40;
 var pat = new weavePatterns();
 pat.set_dd(dd);
 //pat.setCurrentPattern('posseltsFig46');
-pat.setCurrentPattern('sqrt13x5r150_300');
+pat.setCurrentPattern('sqrt5andsig26');
 pat.drawCurrentPattern();
-
-
-
-//animate loop
-//function old obj != new obj
-
-
 
 
 var weaveCtrl = function() {
@@ -137,20 +122,7 @@ var weaveCtrl = function() {
 
 }
 var ctrl = new weaveCtrl();
-var paperPatterns = {};
-var largePaperPatterns = {};
-for (var x in pat.patterns) {
-    if (x.indexOf("pp_") == 0) {
-        paperPatterns[x] = pat.patterns[x];
-    }
-}
-for (var x in pat.patterns) {
-    if (x.indexOf("lp_") == 0) {
-        largePaperPatterns[x] = pat.patterns[x];
-    }
-}
-ctrl.models.paperPatterns = paperPatterns;
-ctrl.models.largePaperPatterns = largePaperPatterns;
+
 
 ctrl.collectActions();
 
