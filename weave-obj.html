@@ -69,13 +69,17 @@ ul.col3 {
 var dd = new drawDown;
 dd.weave_width = 14;
 dd.weave_height = 20;
+
 var pat = new weavePatterns();
 pat.set_dd(dd);
+
+
 pat.setCurrentPattern('posseltsFig46');
 //pat.setCurrentPattern('sqrt13x5r150_300');
 pat.drawCurrentPattern();
 
-
+dd.svgHeight = (72*8) ;
+dd.svgWidth = (72*8) ;
 
 //animate loop
 //function old obj != new obj
@@ -141,16 +145,16 @@ var weaveCtrl = function() {
 var ctrl = new weaveCtrl();
 var paperPatterns = {};
 var largePaperPatterns = {};
-// for (var x in pat.patterns) {
-//     if (x.indexOf("pp_") == 0) {
-//         paperPatterns[x] = pat.patterns[x];
-//     }
-// }
-// for (var x in pat.patterns) {
-//     if (x.indexOf("lp_") == 0) {
-//         largePaperPatterns[x] = pat.patterns[x];
-//     }
-// }
+for (var x in pat.patterns) {
+    if (x.indexOf("pp_") == 0) {
+        paperPatterns[x] = pat.patterns[x];
+    }
+}
+for (var x in pat.patterns) {
+    if (x.indexOf("lp_") == 0) {
+        largePaperPatterns[x] = pat.patterns[x];
+    }
+}
 ctrl.models.paperPatterns = paperPatterns;
 ctrl.models.largePaperPatterns = largePaperPatterns;
 

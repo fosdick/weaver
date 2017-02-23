@@ -9,6 +9,8 @@ var drawDown = (function() {
         weave_height:40,
         fill: "#212121",
         fillBoth: true,
+        svgHeight: (72*16),
+        svgWidth: (72*16),
         setupSvg : function() {
             if (this.svg) {
                 this.svg.parentNode.removeChild(this.svg)
@@ -16,8 +18,8 @@ var drawDown = (function() {
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');
-            svg.style.height = (72*8) + "px";
-            svg.style.width = (72*8) + "px";
+            svg.style.height = this.svgHeight + "px";
+            svg.style.width = this.svgWidth + "px";
             var params = {
             	'fill' : '#fff'
                 ,'fill-opacity' : 0.5
