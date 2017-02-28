@@ -5,10 +5,10 @@ var drawDown = (function() {
         cnt2 : 0,
         p : document.getElementById("content"),
         coordsReport : document.getElementById("coordsReport"),
-        weave_width:40,
-        weave_height:40,
+        weave_width:19,
+        weave_height:19,
         fill: "#212121",
-        fillBoth: true,
+        fillBoth: false,
         svgHeight: (72*16),
         svgWidth: (72*16),
         setupSvg : function() {
@@ -26,8 +26,8 @@ var drawDown = (function() {
             	,'stroke' : 'none'
             	,'x' : 0
             	,'y' : 0
-                ,'height' : this.weave_width
-                ,'width' : this.weave_height
+                ,'width' : this.weave_width
+                ,'height' : this.weave_height
             	,'class' : ""
             }
             this.xmlns = xmlns;
@@ -70,7 +70,7 @@ var drawDown = (function() {
 
             var attrs = {
                 x : (this.weave_width * i) + this.weave_width + (this.weave_width / 2),
-                y : this.weave_width / 2,
+                y : this.weave_height / 2,
                 'font-size' : (this.weave_width * .3)+'px',
                 stroke: '#333',
                 'text-anchor': 'middle'
@@ -123,20 +123,26 @@ var drawDown = (function() {
             };
             return f;
         },
-        ins_p_block: function(x,y) {
+        ins_p_block: function(x,y,c) {
             x = ++x, y=++y;
             y = y + this.offset[1];
             var params = this.params;
-            params['fill'] = "#fff",
+            params['fill'] = c || "#fff",
             params.x = (this.weave_width*x) + this.offset[0];
             params.y = (this.weave_height*y);
-            this._append(this._rec(params));
+            var r = this._rec(params);
+            var f = this.getRectClick();
+            var p = this;
+            r.addEventListener('click', function(e) {
+                f(e,p);
+            }.bind(this));
+            this._append(r);
         },
-        ins_p_block_solid: function(x,y) {
+        ins_p_block_solid: function(x,y,c) {
             x = ++x, y=++y;
             y = y + this.offset[1];
             var params = this.params;
-            params.fill = "#333";
+            params.fill = c || "#333";
             params['fill-opacity'] = .5;
             params.x = (this.weave_width*x) + this.offset[0];
             params.y = (this.weave_height*y);
@@ -187,10 +193,17 @@ var drawDown = (function() {
 
             for (var i in tread) {
                 var row = this.row_places(tie_up[tread[i]-1], thread);
-
+                    var color = '#f27296'
                     for (var j in row) {
-
-                      this.ins_p_block_solid(row[j],col);//type 1
+                        if ((j % 2) == 0) {
+                            color = '#000';
+                        } else {
+                            color = '#9fca56';
+                            //color = '#333';
+                        }
+                        color = '#333';
+                    //color = '#9fca56';
+                      this.ins_p_block_solid(row[j],col, color);//type 1
                       // if (wrap_colors[row[j]] == 0) {
                       //   ins_p_block(row[j], col);//type 1
                       // }
@@ -200,9 +213,15 @@ var drawDown = (function() {
                     }
                 if (this.fillBoth) {
                     var nrow = this.not_row_places(tie_up[tread[i]-1], thread);
-                    for (var j in nrow) {
-
-                        //this.ins_p_block(nrow[j], col);
+                    for (var nj in nrow) {
+                        if ((nj % 2) == 0) {
+                            color = '#99ccff';//blue
+                        } else {
+                            //color = '#9fca56';//green
+                            color = '#f27296';
+                            //color = '#000';
+                        }
+                        this.ins_p_block(nrow[nj], col, color);
 
                       // if (weft_colors[cnt2] == 0) {
                       //   ins_p_block(row[j], col);//type 1

@@ -42,6 +42,15 @@ ul.col3 {
   <div id="content"></div>
 
   <div id="weaveCtrl">
+     <p>thread <input data-value-binding="startingThread" data-value-function="updateWeaver" value="0"/></p>
+     <p>tread <input data-value-binding="startingTread" data-value-function="updateWeaver" value="0"/></p>
+     <p>thread length <input data-value-binding="startingThreadLength" data-value-function="updateWeaver" value="50"/></p>
+     <p>tread length <input data-value-binding="startingTreadLength" data-value-function="updateWeaver" value="50"/></p>
+     <p>weave width <input data-value-binding="weaveWidth" data-value-function="updateWeaver" value="5"/></p>
+     <p>weave height <input data-value-binding="weaveHeight" data-value-function="updateWeaver" value="5"/></p>
+
+      <h4 data-variable-content>{{startingThread}} , {{startingTread}}</h4>
+
       <h4 id="currentTitle"></h4>
       <h4 id="coordsReport"></h4>
       <ul>
@@ -64,7 +73,14 @@ ul.col3 {
 
 <script type="text/javascript">
 
-
+window.requestAnimFrame = (function(){
+ return  window.requestAnimationFrame       ||
+         window.webkitRequestAnimationFrame ||
+         window.mozRequestAnimationFrame    ||
+         function( callback ){
+           window.setTimeout(callback, 1000 / 60);
+         };
+})();
 
 var dd = new drawDown;
 dd.weave_width = 14;
@@ -96,7 +112,71 @@ var weaveCtrl = function() {
     this.elements = {
         weavePattern: document.querySelector('#weaveCtrl ul li')
     };
+    this.UUID = function() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+            return v.toString(16);
+        });
+    }
+    this.updateLoopFirstRun = true;
+    this.updateLoop = function() {
+        var inputs = document.querySelectorAll('[data-value-binding]');
+        var dv = 0, fn=0;
+        for (var i=0, len=inputs.length; i<len; i++) {
+            dv = inputs[i].getAttribute('data-value-binding');
+            var oldVal = this.UUID();
+            if (this[dv] || this[dv] == "" ) {
+                oldVal = this[dv];
+            }
+            if (dv) {
+                this[dv] = inputs[i].value;
+            } else {
+                this[dv] = inputs[i].value;
+            }
+            fn = inputs[i].getAttribute('data-value-function');
+            if (fn && this[fn] && this[dv] && (oldVal != this[dv])) {
+                this[fn]();
+                console.log("cats");
+            }
+        }
 
+        if (this.updateLoopFirstRun) {
+            this.updateLoopFirstRun = false;
+            this.variableContentList = {};
+            var varContent = document.querySelectorAll('[data-variable-content]');
+            for (var i=0, len=varContent.length; i<len; i++) {
+                this.variableContentList[this.UUID()] = {
+                    "orgInnerHTML" : varContent[i].innerHTML,
+                    "elRef" : varContent[i]
+                }
+                this.handleVarContent(varContent[i]);
+            }
+        } else {
+            var keys = Object.keys(this.variableContentList);
+            for (var i=0, len=keys.length; i<len; i++) {
+                var em = this.variableContentList[keys[i]];
+                this.handleVarContent(em.elRef, em.orgInnerHTML);
+            }
+        }
+    }
+    this.handleVarContent = function(el, orgInnerHTML) {
+        var txt = orgInnerHTML || el.innerHTML;
+        var re = /{{[a-zA-Z0-9$_]+}}/g;
+        var m = txt.match(re);
+        var content, rgex, exp, crgex = /[{}]/g;
+        if (m && m.length) {
+            for (var i=0, len=m.length; i<len; i++) {
+                exp = m[i].replace(crgex,'');
+                if (this[exp]) {
+                    content = this[exp];
+                    rgex = new RegExp(m[i],'g');
+                    var newStr = txt.replace(rgex, content);
+                    el.innerHTML = newStr;
+                }
+                txt = el.innerHTML;
+            }
+        }
+    }
     this.collectActions = function() {
 
         var forLists = document.querySelectorAll('[data-forList]');
@@ -105,6 +185,27 @@ var weaveCtrl = function() {
         }
 
     }
+    this.ani = window.requestAnimFrame;
+    this.domCycle = function(act) {
+        this.collectActions();
+        var start = null;
+        this.act = act;
+        var that = this;
+        function step(timestamp) {
+            //console.log("cats", this)
+            that.updateLoop();
+            if (1) {
+                window.requestAnimFrame(step);
+            }
+        }
+        //var fn = new step();
+        window.requestAnimFrame(step);//.bind(this);
+    }
+    this.eval = "some text";
+    // this.anExp = function() {
+    //     return 20 * 11;
+    // }
+
     this.buildForList = function(el) {
         var m = this.models[el.getAttribute('data-forList')];
         var p = el.parentNode;
@@ -122,11 +223,33 @@ var weaveCtrl = function() {
         }
 
     };
+    this.updateWeaver = function() {
+        if (1) {
+            var cn = pat.currentPatternName;
+            if (pat.patterns[cn]) {
+                var p = pat.patterns[cn]();
+                //console.log("cats", p())
+                var width = this.weaveWidth || 5;
+                var height = this.weaveHeight || 5;
+                pat.dd.weave_width = width;
+                pat.dd.weave_height = height;
+                pat.dd.thread = p.thread.splice(this.startingThread,this.startingThreadLength);
+                pat.dd.tread = p.tread.splice(this.startingTread,this.startingTreadLength);
+                //dd.tie_up = this.currentTie_up;
+                dd.setupSvg();
+                pat.dd.draw();
+                //dd.legend();
+                //pat.drawCurrentPattern();
+                //console.log("cats")
+            }
+        }
+    }
     this.swapWeavePattern = function(el) {
         var name = el.getAttribute('data-at-index');
         document.querySelector("#currentTitle").innerHTML = name;
         pat.setCurrentPattern(name);
         pat.drawCurrentPattern();
+        console.log("cats")
     }
     this.forList = function() {
 
@@ -158,7 +281,8 @@ for (var x in pat.patterns) {
 ctrl.models.paperPatterns = paperPatterns;
 ctrl.models.largePaperPatterns = largePaperPatterns;
 
-ctrl.collectActions();
+//ctrl.collectActions();
+ctrl.domCycle(ctrl.collectActions);
 
 
 
