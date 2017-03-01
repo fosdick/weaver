@@ -23,31 +23,31 @@ var tieUpController = function() {
 
     this.setMod = function(v) {
         this.modVal = v;
-        this.inVerMod = this.modVal + v;
+        this.inVerMod = this.modVal + 1;
     }
-    this.setMod(4);
-    function _pluck(nl, pl) {
+    this.setMod(10);
+    this._pluck = function(nl, pl) {
         var tr = [];
         for (var i = 0, len = pl.length; i<len; i++) {
             tr = tr.concat(nl[pl[i]-1]);
         }
         return tr;
     }
-    function _roll(a) {
+    this._roll = function(a) {
         var aa = a.shift();
         a = a.concat([aa]);
         return a;
     }
-    function _rollf(a) {
+    this._rollf = function(a) {
         var aa = a.pop();
         a = [aa].concat(a);
         return a;
     }
-    function modN(n) {
-        return (n % 4) + 1;
+    this.modN = function(n) {
+        return (n % this.modVal) + 1;
     }
-    function inVer(n) {
-        return 5 - n;
+    this.inVer = function(n) {
+        return this.inVerMod - n;
     }
     this.setThread = function(t) {
         this.thread = t;
@@ -58,23 +58,26 @@ var tieUpController = function() {
     this.setThread(this.stringList.sqrt5);
     this.setTread(this.stringList.sqrt5);
     this.modTreddle = function() {
-        this.thread = this.thread.map(modN)
-        this.tread = this.tread.map(modN).map(inVer);
+        this.thread = this.thread.map(this.modN.bind(this))
+        this.tread = this.tread.map(this.modN.bind(this)).map(this.inVer.bind(this));
     }
     this.modTreddle();
 
 
 
     this.setTieUp = function() {
-        var pl = [1,3]
-        var blank_pl = [2,4]
-        var nl = [1,2,3,4]
+        // var pl = [1,3]
+        // var blank_pl = [2,4]
+        // var nl = [1,2,3,4]
 
+        var pl = [1,3,5,7,9];
+        var blank_pl = [];
+        var nl = [1,2,3,4,5,6,7,8,9,10];
         var i = 0,tie_up = [];
-        tie_up.push(_pluck(nl,pl));
-        while (i < 4) {
-            nl = _rollf(nl);
-            tie_up.push(_pluck(nl,pl));
+        tie_up.push(this._pluck(nl,pl));
+        while (i < this.modVal) {
+            nl = this._rollf(nl);
+            tie_up.push(this._pluck(nl,pl));
             i++;
         }
         this.tie_up = tie_up;
