@@ -39,6 +39,12 @@ var weavePatterns = function() {
         }
     };
     var down_draft = this.dd;
+    this.stringList = {
+
+
+
+
+    };
     this.patterns = {
         posseltsFig35 : function() {
             ////http://www.handweaving.net/draft-detail/58075/page-1-figure-35-posselts-textile-journal-march-1911-united-states-1907-1915

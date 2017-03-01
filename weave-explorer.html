@@ -1,8 +1,9 @@
 <html>
 <head>
-
     <script src="drawDown.js"></script>
     <script src="weave-objects.js"></script>
+    <script src="strings-list.js"></script>
+    <script src="tieup-controler.js"></script>
 </head>
 <style>
 span {
@@ -42,33 +43,26 @@ ul.col3 {
   <div id="content"></div>
 
   <div id="weaveCtrl">
-     <p>thread <input data-value-binding="startingThread" data-value-function="updateWeaver" value="0"/></p>
-     <p>tread <input data-value-binding="startingTread" data-value-function="updateWeaver" value="0"/></p>
-     <p>thread length <input data-value-binding="startingThreadLength" data-value-function="updateWeaver" value="50"/></p>
-     <p>tread length <input data-value-binding="startingTreadLength" data-value-function="updateWeaver" value="50"/></p>
+     <p>thread <input type="range" min="0" max="15000" data-value-binding="startingThread" data-value-function="updateWeaver" value="0"/></p>
+     <p>tread <input type="range" min="0" max="15000" data-value-binding="startingTread" data-value-function="updateWeaver" value="0"/></p>
+     <p>thread length <input data-value-binding="startingThreadLength" data-value-function="updateWeaver" value="120"/></p>
+     <p>tread length <input data-value-binding="startingTreadLength" data-value-function="updateWeaver" value="120"/></p>
      <p>weave width <input data-value-binding="weaveWidth" data-value-function="updateWeaver" value="5"/></p>
      <p>weave height <input data-value-binding="weaveHeight" data-value-function="updateWeaver" value="5"/></p>
+     <!-- <p>weave width <input data-value-binding="createThread" data-value-function="createNewPattern" /></p>
+     <p>weave height <input data-value-binding="createTread" data-value-function="createNewPattern" /></p>
+     <p>weave height <input data-value-binding="createTie_up" data-value-function="createNewPattern" /></p> -->
 
       <h4 data-variable-content>{{startingThread}} , {{startingTread}}</h4>
 
       <h4 id="currentTitle"></h4>
       <h4 id="coordsReport"></h4>
-      <ul>
-          <li class="weavePatterns" data-forList="weavePatterns" onclick=ctrl.swapWeavePattern(this)>
+      <select>
+          <option class="weavePatterns weaveStringList" data-forList="stringList" onclick=ctrl.swapString(this)>
               {{@index}}
           </li>
-      </ul>
-      <ul class="col2">
-           <li class="weavePatterns" data-forList="paperPatterns" onclick=ctrl.swapWeavePattern(this)>
-               {{@index}}
-           </li>
-       </ul>
+      </select>
 
-       <ul class="col3">
-            <li class="weavePatterns" data-forList="largePaperPatterns" onclick=ctrl.swapWeavePattern(this)>
-                {{@index}}
-            </li>
-        </ul>
   </div>
 
 <script type="text/javascript">
@@ -81,6 +75,8 @@ window.requestAnimFrame = (function(){
            window.setTimeout(callback, 1000 / 60);
          };
 })();
+var tieUp = new tieUpController;
+
 
 var dd = new drawDown;
 dd.weave_width = 14;
@@ -90,16 +86,12 @@ var pat = new weavePatterns();
 pat.set_dd(dd);
 
 
-pat.setCurrentPattern('posseltsFig46');
+pat.setCurrentPattern('lg_sqrt5');
 //pat.setCurrentPattern('sqrt13x5r150_300');
 pat.drawCurrentPattern();
 
 dd.svgHeight = (72*8) ;
 dd.svgWidth = (72*8) ;
-
-//animate loop
-//function old obj != new obj
-
 
 
 
@@ -213,6 +205,17 @@ var weaveCtrl = function() {
         }
 
     };
+
+    this.createPatterns = function(createObj) {
+        var width = this.weaveWidth || 5;
+        var height = this.weaveHeight || 5;
+        pat.dd.weave_width = width;
+        pat.dd.weave_height = height;
+        pat.dd.thread = this.createThread.splice(this.startingThread,this.startingThreadLength);
+        pat.dd.tread = this.createTread.splice(this.startingTread,this.startingTreadLength);
+        dd.tie_up = this.createTie_up;
+        dd.setupSvg();
+    }
     this.updateWeaver = function() {
         if (1) {
             var cn = pat.currentPatternName;
@@ -255,21 +258,7 @@ var weaveCtrl = function() {
 
 }
 var ctrl = new weaveCtrl();
-var paperPatterns = {};
-var largePaperPatterns = {};
-for (var x in pat.patterns) {
-    if (x.indexOf("pp_") == 0) {
-        paperPatterns[x] = pat.patterns[x];
-    }
-}
-for (var x in pat.patterns) {
-    if (x.indexOf("lp_") == 0) {
-        largePaperPatterns[x] = pat.patterns[x];
-    }
-}
-ctrl.models.paperPatterns = paperPatterns;
-ctrl.models.largePaperPatterns = largePaperPatterns;
-
+ctrl.models.stringList = stringList //from file string list
 //ctrl.collectActions();
 ctrl.domCycle(ctrl.collectActions);
 
