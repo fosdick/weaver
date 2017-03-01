@@ -43,8 +43,8 @@ ul.col3 {
   <div id="content"></div>
 
   <div id="weaveCtrl">
-     <p>thread <input type="range" min="0" max="15000" data-value-binding="startingThread" data-value-function="updateWeaver" value="0"/></p>
-     <p>tread <input type="range" min="0" max="15000" data-value-binding="startingTread" data-value-function="updateWeaver" value="0"/></p>
+     <p>thread <input type="range" min="0" max="25000" data-value-binding="startingThread" data-value-function="updateWeaver" value="0"/></p>
+     <p>tread <input type="range" min="0" max="25000" data-value-binding="startingTread" data-value-function="updateWeaver" value="0"/></p>
      <p>thread length <input data-value-binding="startingThreadLength" data-value-function="updateWeaver" value="120"/></p>
      <p>tread length <input data-value-binding="startingTreadLength" data-value-function="updateWeaver" value="120"/></p>
      <p>weave width <input data-value-binding="weaveWidth" data-value-function="updateWeaver" value="5"/></p>
@@ -57,8 +57,8 @@ ul.col3 {
 
       <h4 id="currentTitle"></h4>
       <h4 id="coordsReport"></h4>
-      <select>
-          <option class="weavePatterns weaveStringList" data-forList="stringList" onclick=ctrl.swapString(this)>
+      <select onchange=ctrl.swapString(this)>
+          <option class="weavePatterns weaveStringList" data-forList="stringList" >
               {{@index}}
           </li>
       </select>
@@ -205,7 +205,26 @@ var weaveCtrl = function() {
         }
 
     };
-
+    this.swapString = function(o) {
+        tieUp.setThread(this.models.stringList[o.value]);
+        tieUp.setTread(this.models.stringList[o.value]);
+        tieUp.modTreddle();
+        tieUp.setTieUp();
+        var p = tieUp.getDefaultDraft();
+        var width = this.weaveWidth || 5;
+        var height = this.weaveHeight || 5;
+        pat.dd.weave_width = width;
+        pat.dd.weave_height = height;
+        pat.dd.thread = p.thread.splice(this.startingThread,this.startingThreadLength);
+        pat.dd.tread = p.tread.splice(this.startingTread,this.startingTreadLength);
+        dd.tie_up = p.tie_up;
+        pat.currentPatternName = "create";
+        pat.patterns['create'] = function() {
+            return p
+        };
+        dd.setupSvg();
+        pat.dd.draw();
+    }
     this.createPatterns = function(createObj) {
         var width = this.weaveWidth || 5;
         var height = this.weaveHeight || 5;
@@ -215,6 +234,7 @@ var weaveCtrl = function() {
         pat.dd.tread = this.createTread.splice(this.startingTread,this.startingTreadLength);
         dd.tie_up = this.createTie_up;
         dd.setupSvg();
+        pat.dd.draw();
     }
     this.updateWeaver = function() {
         if (1) {

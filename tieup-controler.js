@@ -65,7 +65,7 @@ var tieUpController = function() {
 
 
 
-    this.getTieUp = function() {
+    this.setTieUp = function() {
         var pl = [1,3]
         var blank_pl = [2,4]
         var nl = [1,2,3,4]
@@ -77,9 +77,9 @@ var tieUpController = function() {
             tie_up.push(_pluck(nl,pl));
             i++;
         }
-        return tie_up;
+        this.tie_up = tie_up;
     }
-    this.tie_up = this.getTieUp();
+    this.setTieUp();
     this.getDefaultDraft = function() {
         return {
             thread : this.thread,
