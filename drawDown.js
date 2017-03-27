@@ -8,13 +8,20 @@ var drawDown = (function() {
         weave_width:19,
         weave_height:19,
         fill: "#212121",
-        fillBoth: false,
+        fillBoth: true,
         svgHeight: (72*16),
         svgWidth: (72*16),
+        colorPalettes : {
+          bigTop : ['#C63D0F','#3B3738', '#FDF3E7','#7E8F7C']
+          ,toriEye : ['#F3FAB6', '#CBE32D', '#A8CD1B','#005A31']
+          ,eventFind : ['#558C89','#74AFAD','#D9853B','#ECECEA']
+        },
+
         setupSvg : function() {
             if (this.svg) {
                 this.svg.parentNode.removeChild(this.svg)
             }
+            this.currentColorPalettes = this.colorPalettes.toriEye;
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');
@@ -195,30 +202,35 @@ var drawDown = (function() {
                 var row = this.row_places(tie_up[tread[i]-1], thread);
                     var color = '#f27296'
                     for (var j in row) {
-                        if ((j % 2) == 0) {
-                            color = '#000';
+                        //console.log("cats", row[j])
+                        if ((row[j] % 2) == 0) {
+                            color = this.currentColorPalettes[0];
                         } else {
-                            color = '#9fca56';
+                            color = this.currentColorPalettes[1];
                             //color = '#333';
                         }
-                        color = '#333';
+                        //color = '#333';
                     //color = '#9fca56';
                       this.ins_p_block_solid(row[j],col, color);//type 1
+
                       // if (wrap_colors[row[j]] == 0) {
                       //   ins_p_block(row[j], col);//type 1
                       // }
                       // if (wrap_colors[row[j]] == 1) {
                       //   ins_p_block_solid(row[j],col);//type 1
                       // }
+
                     }
                 if (this.fillBoth) {
                     var nrow = this.not_row_places(tie_up[tread[i]-1], thread);
+
                     for (var nj in nrow) {
-                        if ((nj % 2) == 0) {
-                            color = '#99ccff';//blue
+                        //console.log("dogs", nj)
+                        if ((nrow[nj] % 2) == 0) {
+                            color = this.currentColorPalettes[3]
                         } else {
                             //color = '#9fca56';//green
-                            color = '#f27296';
+                            color = this.currentColorPalettes[4]
                             //color = '#000';
                         }
                         this.ins_p_block(nrow[nj], col, color);
@@ -233,7 +245,7 @@ var drawDown = (function() {
                     }
                 }
                 col++;
-                cnt2++;
+
             }
         }
     }
