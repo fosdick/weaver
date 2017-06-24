@@ -21,7 +21,7 @@ var drawDown = (function() {
             if (this.svg) {
                 this.svg.parentNode.removeChild(this.svg)
             }
-            this.currentColorPalettes = this.colorPalettes.toriEye;
+            this.currentColorPalettes = this.colorPalettes.bigTop;
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');
