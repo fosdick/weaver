@@ -205,6 +205,8 @@ var weaveCtrl = function() {
         }
 
     };
+    // TODO
+    // add call to dd.draw as rescursive
     this.swapString = function(o) {
         //tieUp.setMod(4);
         tieUp.setThread(this.models.stringList[o.value]);
@@ -224,6 +226,9 @@ var weaveCtrl = function() {
             return p
         };
         dd.setupSvg();
+        //TODO
+        // this object needs to allow a map or apply like feature
+        // either promise all (async) or map (sync)
         pat.dd.draw();
     }
     this.createPatterns = function(createObj) {
