@@ -15,13 +15,14 @@ var drawDown = (function() {
           bigTop : ['#C63D0F','#3B3738', '#FDF3E7','#7E8F7C']
           ,toriEye : ['#F3FAB6', '#CBE32D', '#A8CD1B','#005A31']
           ,eventFind : ['#558C89','#74AFAD','#D9853B','#ECECEA']
+          ,greyWhite : ['#fff','#363636','#fff','#363636']
         },
 
         setupSvg : function() {
             if (this.svg) {
                 this.svg.parentNode.removeChild(this.svg)
             }
-            this.currentColorPalettes = this.colorPalettes.bigTop;
+            this.currentColorPalettes = this.colorPalettes.greyWhite;
             var params = {};
             var xmlns="http://www.w3.org/2000/svg"
             var svg = document.createElementNS(xmlns,'svg');

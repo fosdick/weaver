@@ -43,8 +43,8 @@ ul.col3 {
   <div id="content"></div>
 
   <div id="weaveCtrl">
-     <p>thread <input type="range" min="0" max="25000" data-value-binding="startingThread" data-value-function="updateWeaver" value="0"/></p>
-     <p>tread <input type="range" min="0" max="25000" data-value-binding="startingTread" data-value-function="updateWeaver" value="0"/></p>
+     <p>thread <input  data-value-binding="startingThread" data-value-function="updateWeaver" value="0"/></p>
+     <p>tread <input  data-value-binding="startingTread" data-value-function="updateWeaver" value="0"/></p>
      <p>thread length <input data-value-binding="startingThreadLength" data-value-function="updateWeaver" value="120"/></p>
      <p>tread length <input data-value-binding="startingTreadLength" data-value-function="updateWeaver" value="120"/></p>
      <p>weave width <input data-value-binding="weaveWidth" data-value-function="updateWeaver" value="5"/></p>
@@ -90,8 +90,8 @@ pat.setCurrentPattern('lg_sqrt5');
 //pat.setCurrentPattern('sqrt13x5r150_300');
 pat.drawCurrentPattern();
 
-dd.svgHeight = (72*8) ;
-dd.svgWidth = (72*8) ;
+dd.svgHeight = (100*5) ;
+dd.svgWidth = (60*5) ;
 
 
 
