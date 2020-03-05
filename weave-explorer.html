@@ -218,8 +218,8 @@ var weaveCtrl = function() {
         var height = this.weaveHeight || 5;
         pat.dd.weave_width = width;
         pat.dd.weave_height = height;
-        pat.dd.thread = p.thread.splice(this.startingThread,this.startingThreadLength);
-        pat.dd.tread = p.tread.splice(this.startingTread,this.startingTreadLength);
+        pat.dd.thread = [...p.thread].splice(this.startingThread,this.startingThreadLength);
+        pat.dd.tread = [...p.tread].splice(this.startingTread,this.startingTreadLength);
         dd.tie_up = p.tie_up;
         pat.currentPatternName = "create";
         pat.patterns['create'] = function() {
@@ -236,8 +236,8 @@ var weaveCtrl = function() {
         var height = this.weaveHeight || 5;
         pat.dd.weave_width = width;
         pat.dd.weave_height = height;
-        pat.dd.thread = this.createThread.splice(this.startingThread,this.startingThreadLength);
-        pat.dd.tread = this.createTread.splice(this.startingTread,this.startingTreadLength);
+        pat.dd.thread = [...this.createThread].splice(this.startingThread,this.startingThreadLength);
+        pat.dd.tread = [...this.createTread].splice(this.startingTread,this.startingTreadLength);
         dd.tie_up = this.createTie_up;
         dd.setupSvg();
         pat.dd.draw();
@@ -252,8 +252,8 @@ var weaveCtrl = function() {
                 var height = this.weaveHeight || 5;
                 pat.dd.weave_width = width;
                 pat.dd.weave_height = height;
-                pat.dd.thread = p.thread.splice(this.startingThread,this.startingThreadLength);
-                pat.dd.tread = p.tread.splice(this.startingTread,this.startingTreadLength);
+                pat.dd.thread = [...p.thread].splice(this.startingThread,this.startingThreadLength);
+                pat.dd.tread = [...p.tread].splice(this.startingTread,this.startingTreadLength);
                 //dd.tie_up = this.currentTie_up;
                 dd.setupSvg();
                 pat.dd.draw();
