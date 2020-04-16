@@ -41,7 +41,6 @@ ul.col3 {
 <body>
 
   <div id="content"></div>
-
   <div id="weaveCtrl">
      <p>thread <input  data-value-binding="startingThread" data-value-function="updateWeaver" value="0"/></p>
      <p>tread <input  data-value-binding="startingTread" data-value-function="updateWeaver" value="0"/></p>
@@ -49,18 +48,19 @@ ul.col3 {
      <p>tread length <input data-value-binding="startingTreadLength" data-value-function="updateWeaver" value="120"/></p>
      <p>weave width <input data-value-binding="weaveWidth" data-value-function="updateWeaver" value="5"/></p>
      <p>weave height <input data-value-binding="weaveHeight" data-value-function="updateWeaver" value="5"/></p>
+
      <!-- <p>weave width <input data-value-binding="createThread" data-value-function="createNewPattern" /></p>
      <p>weave height <input data-value-binding="createTread" data-value-function="createNewPattern" /></p>
      <p>weave height <input data-value-binding="createTie_up" data-value-function="createNewPattern" /></p> -->
-
-      <h4 data-variable-content>{{startingThread}} , {{startingTread}}</h4>
+      <h4 data-variable-content>{{tieup}}</h4>
+      <h4 data-variable-content>{{sqrtType}}_{{startingThread}}x{{startingTread}}_lw_{{startingThreadLength}}_{{startingTreadLength}}</h4>
 
       <h4 id="currentTitle"></h4>
       <h4 id="coordsReport"></h4>
       <select onchange=ctrl.swapString(this)>
           <option class="weavePatterns weaveStringList" data-forList="stringList" >
               {{@index}}
-          </li>
+          </option>
       </select>
 
   </div>
@@ -94,13 +94,12 @@ dd.svgHeight = (100*5) ;
 dd.svgWidth = (60*5) ;
 
 
-
 var weaveCtrl = function() {
 
     this.models = {
         weavePatterns: pat.patterns
     };
-
+    this.sqrtType = "sqrt5"
     this.elements = {
         weavePattern: document.querySelector('#weaveCtrl ul li')
     };
@@ -141,6 +140,7 @@ var weaveCtrl = function() {
                 }
                 this.handleVarContent(varContent[i]);
             }
+            // console.log(this.variableContentList, this);
         } else {
             var keys = Object.keys(this.variableContentList);
             for (var i=0, len=keys.length; i<len; i++) {
@@ -162,6 +162,7 @@ var weaveCtrl = function() {
                     rgex = new RegExp(m[i],'g');
                     var newStr = txt.replace(rgex, content);
                     el.innerHTML = newStr;
+                    // console.log(el);
                 }
                 txt = el.innerHTML;
             }
@@ -209,6 +210,7 @@ var weaveCtrl = function() {
     // add call to dd.draw as rescursive
     this.swapString = function(o) {
         //tieUp.setMod(4);
+        
         tieUp.setThread(this.models.stringList[o.value]);
         tieUp.setTread(this.models.stringList[o.value]);
         tieUp.modTreddle();
@@ -221,6 +223,9 @@ var weaveCtrl = function() {
         pat.dd.thread = [...p.thread].splice(this.startingThread,this.startingThreadLength);
         pat.dd.tread = [...p.tread].splice(this.startingTread,this.startingTreadLength);
         dd.tie_up = p.tie_up;
+        ctrl.tieup = JSON.stringify(p.tie_up);
+        ctrl.sqrtType = o.value; 
+        
         pat.currentPatternName = "create";
         pat.patterns['create'] = function() {
             return p
