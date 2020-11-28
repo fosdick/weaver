@@ -2,8 +2,8 @@ const seq = [2,2,3,6,0,6,7,9,7,7,4,9,9,7,8,9,6,9,6,4,0,9,1,7,3,6,6,8,7,3,1,2,7,6
 
 const balanceNumber = ((num) => {
   let bNum = num;
-  bNum = (num/250).toFixed(0);
-  return bNum;
+  bNum = (num/1).toFixed(0);
+  return num;
 });
 const parseSeq = ((seq) => {
     const returnList = []
@@ -11,8 +11,8 @@ const parseSeq = ((seq) => {
     let cnt = 1;
     let tup = [];
     while(seq.length > 6) {
-      tup.push(Number(seq.slice(0,4).join("")));
-      seq.splice(0,1);
+      tup.push(Number(seq.slice(0,2).join("")));
+      seq.splice(0,2);
       if (cnt % 3 === 0) {
         returnList.push(tup.map(x => balanceNumber(x)));
         tup = [];
@@ -48,6 +48,7 @@ const triangleList = parseList.filter(x => isTriangle(x));
 const matchOne = ((list, matches) => {
   let chk = 0;
   list.forEach((i) => {
+    //console.log(i);
     if (matches.includes(i)) {
       chk++
     }
@@ -58,14 +59,22 @@ const matchOne = ((list, matches) => {
     return false;
   }
 });
-const matchTwo = ((list, matches) => {
-  let chk = 0;
+const matchTwo = ((list, matches1, matches2) => {
+  let chk = 0, chk2 = 0;
+  const lm = [];
   list.forEach((i) => {
-    if (matches.includes(i)) {
-      chk++
+    if (matches1.includes(i)) {
+      chk++;
+      lm.push(i)
     }
   });
-  if (chk > 1) {
+  list.forEach((i) => {
+    if (matches2.includes(i)) {
+      chk2++;
+      lm.push(i);
+    }
+  });
+  if (chk > 0 && chk2 > 0 && lm.length > 2) {
     return true;
   } else {
     return false;
@@ -73,23 +82,27 @@ const matchTwo = ((list, matches) => {
 });
 
 const shapeSeed = triangleList.splice(0,1);
-
+// console.log(shapeSeed,triangleList);
 const buildShape = (() => {
-
+  let lenOne = 0, lenTwo = 1;
   triangleList.forEach((x, i) => {
-    if (i < 2) {
+
+    if (shapeSeed.length < 2) {
       if (matchOne(x, shapeSeed[shapeSeed.length -1])) {
         shapeSeed.push(x);
       }
     }
-    else if (i % 2 === 0) {
+    else if (lenTwo >= lenOne) {
       if (matchOne(x, shapeSeed[shapeSeed.length -1])) {
         shapeSeed.push(x);
+        lenOne++
       }
     }
-    else if (i % 2 === 1) {
-      if (matchTwo(x, shapeSeed[shapeSeed.length -1])) {
+    else if (lenTwo < lenOne) {
+      // console.log(shapeSeed);
+      if (matchTwo(x, shapeSeed[shapeSeed.length -1] , shapeSeed[shapeSeed.length -2])) {
         shapeSeed.push(x);
+        lenTwo++
       }
     }
   });
